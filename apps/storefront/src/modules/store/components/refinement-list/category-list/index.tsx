@@ -17,12 +17,14 @@ const CategoryList = ({
   const getCategoriesToExpand = useCallback(
     (category: HttpTypes.StoreProductCategory) => {
       const categoriesToExpand = [category.id]
-      let current = category
-      while (current.parent_category_id) {
+      let current: HttpTypes.StoreProductCategory | undefined = category
+      while (current?.parent_category_id) {
         categoriesToExpand.push(current.parent_category_id)
-        current = categories.find(
-          (cat) => cat.id === current.parent_category_id
-        ) as HttpTypes.StoreProductCategory
+        current =
+          categories.find((cat) => cat.id === current?.parent_category_id) ??
+          (current.parent_category as
+            | HttpTypes.StoreProductCategory
+            | undefined)
       }
       return categoriesToExpand
     },
@@ -63,12 +65,16 @@ const CategoryList = ({
   const getCategoryMarginLeft = useCallback(
     (category: HttpTypes.StoreProductCategory) => {
       let level = 0
-      let currentCategory = category
-      while (currentCategory.parent_category_id) {
+      let currentCategory: HttpTypes.StoreProductCategory | undefined = category
+      while (currentCategory?.parent_category_id) {
         level++
-        currentCategory = categories.find(
-          (cat) => cat.id === currentCategory.parent_category_id
-        ) as HttpTypes.StoreProductCategory
+        currentCategory =
+          categories.find(
+            (cat) => cat.id === currentCategory?.parent_category_id
+          ) ??
+          (currentCategory.parent_category as
+            | HttpTypes.StoreProductCategory
+            | undefined)
       }
       return level * 4
     },

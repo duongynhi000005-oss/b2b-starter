@@ -44,6 +44,7 @@ const CategoryBreadcrumb = ({
 
     currentCategory =
       categories.find((c) => c.id === currentCategory?.parent_category_id) ||
+      currentCategory.parent_category ||
       null
 
     while (currentCategory) {
@@ -66,6 +67,7 @@ const CategoryBreadcrumb = ({
 
       currentCategory =
         categories.find((c) => c.id === currentCategory?.parent_category_id) ||
+        currentCategory.parent_category ||
         null
     }
 

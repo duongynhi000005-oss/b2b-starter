@@ -67,11 +67,10 @@ export default async function CategoryPage(props: Props) {
   const params = await props.params
   const { sortBy, page } = searchParams
 
-  const categories = await listCategories()
-
-  const currentCategory = categories.find(
-    (category) => category.handle === params.category.join("/")
-  )
+  const [categories, currentCategory] = await Promise.all([
+    listCategories(),
+    getCategoryByHandle(params.category),
+  ])
 
   if (!currentCategory) {
     notFound()
